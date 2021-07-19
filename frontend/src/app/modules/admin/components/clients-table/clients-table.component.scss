@@ -1,0 +1,61 @@
+//::ng-deep {
+//  .cdk-overlay-container,
+//  .cdk-global-overlay-wrapper {
+//    pointer-events: none;
+//    top: 0;
+//    left: 0;
+//    height: 100%;
+//    width: 100%;
+//  }
+//
+//  .cdk-overlay-container {
+//    position: fixed;
+//  }
+//
+//  .cdk-overlay-pane {
+//    position: absolute;
+//    pointer-events: auto;
+//  }
+//
+//  .mat-option {
+//    background-color: white;
+//  }
+//}
+
+a {
+  color: inherit;
+}
+
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+input {
+  max-width: 10rem;
+  min-width: 6.5rem;
+}
+
+#input-container {
+  position: relative;
+  padding-left: 20px;
+}
+
+
+#input {
+  margin: 0;
+  padding-left: 1.75rem;
+  width: 100%;
+ }
+
+#input-icon {
+  position: absolute;
+  bottom: 6px;
+  left: 27px;
+  width: 24px;
+  height: 24px;
+}

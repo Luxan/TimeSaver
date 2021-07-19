@@ -1,0 +1,51 @@
+<div class="my-3 d-flex justify-content-between text-nowrap">
+  <button class="btn btn-primary" [routerLink]="['/admin/clients/new']">Create New Client</button>
+  <div id="input-container">
+    <i class="bi bi-search align-middle" id="input-icon"></i>
+    <input #searchInput id="input" type="search" class="form-control" placeholder="search">
+  </div>
+</div>
+<table mat-table class="mb-0 w-100" matSort aria-label="Elements">
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+    <td mat-cell class="align-middle" *matCellDef="let client"><a
+      [routerLink]="['/admin/clients/view/' + client.id]">{{client.name}}</a></td>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+    <td mat-cell class="align-middle" *matCellDef="let client"><a
+      [routerLink]="['/admin/clients/view/' + client.id]">{{client.email}}</a></td>
+  </ng-container>
+
+  <ng-container matColumnDef="phone">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+    <td mat-cell class="align-middle" *matCellDef="let client"><a
+      [routerLink]="['/admin/clients/view/' + client.id]">{{client.phone}}</a></td>
+  </ng-container>
+
+  <ng-container matColumnDef="buttons">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell class="text-end" *matCellDef="let client">
+      <button class="btn btn-danger m-1" (click)="delete(client)" title="Delete client"><i class="bi bi-trash"></i>
+      </button>
+      <button class="btn btn-primary m-1" [routerLink]="'/admin/clients/edit/' + client.id" title="Edit client"><i
+        class="bi bi-pencil-square"></i></button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<div class="bg-dark text-white text-center py-5" *ngIf="dataSource.data.length == 0">
+  No data
+</div>
+
+<mat-paginator #paginator
+               [length]="dataSource?.data?.length"
+               [pageIndex]="0"
+               [pageSize]="10"
+               [pageSizeOptions]="[5, 10, 20]">
+</mat-paginator>

@@ -13,4 +13,5 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query("SELECT c from Client c WHERE c.name LIKE %:searchString% OR c.email LIKE %:searchString%")
     List<Client> searchByString(String searchString);
 
+    Client searchByName(String name);
 }

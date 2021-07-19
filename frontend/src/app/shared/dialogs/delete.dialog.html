@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>{{data.name}}</h2>
+<mat-dialog-content [innerHTML]="data.description"></mat-dialog-content>
+<mat-dialog-actions>
+  <div class="d-flex w-100 justify-content-between my-3">
+    <div>
+      <button class="btn btn-secondary" mat-button [mat-dialog-close]="false">Cancel</button>
+    </div>
+    <div>
+      <button class="btn btn-primary" mat-button [mat-dialog-close]="true">Confirm</button>
+    </div>
+  </div>
+</mat-dialog-actions>

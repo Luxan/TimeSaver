@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from "./app.component";
-import { PublicModule } from "./modules/public/public.module";
-import { PrivateModule } from "./modules/private/private.module";
-import { AdminModule } from "./modules/admin/admin.module";
 import { RouterModule, Routes } from "@angular/router";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { SharedModule } from "./shared/shared.module";
+import { HttpClientModule } from "@angular/common/http";
 
 const appRoutes: Routes = [
   {
@@ -27,7 +27,10 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes)
+    NoopAnimationsModule,
+    RouterModule.forRoot(appRoutes),
+    SharedModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [ AppComponent ]

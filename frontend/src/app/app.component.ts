@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   selector: 'app-root'
 })
 export class AppComponent {
-  title = 'time-saver';
+
 }
