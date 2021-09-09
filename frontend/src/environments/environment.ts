@@ -5,7 +5,10 @@
 export const environment = {
   production: false,
   name: 'dev',
-  serverApiUrl: 'http://localhost:8881/api/v1/'
+  serverApiUrl: 'http://localhost:8881/api/v1/',
+  facebookLink: 'https://www.facebook.com/krzysztof.jordan',
+  instagramLink: 'https://www.instagram.com/krzysztof.a.jordan',
+  copyright: "© 2021 Copyright Krzysztof Jordan"
 };
 
 /*

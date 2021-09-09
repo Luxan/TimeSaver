@@ -1,0 +1,59 @@
+<navbar-public></navbar-public>
+<div id="order-container"></div>
+
+<div class="container-fluid p-0">
+  <div class="mask rounded overflow-auto">
+    <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+      <div class="form-group m-4 text-center">
+        <h3>Fill free to ask me anything.</h3>
+      </div>
+      <div class="form-group m-4">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your name</mat-label>
+          <input matInput placeholder="Christopher Columbus" formControlName="name" required>
+          <mat-error *ngIf="f.name.invalid">{{getNameErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group m-4">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your email</mat-label>
+          <input matInput placeholder="example@mail.com" formControlName="email" required>
+          <mat-error *ngIf="f.email.invalid">{{getEmailErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group m-4">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your phone</mat-label>
+          <input matInput placeholder="+48123456789" formControlName="phone">
+          <mat-error *ngIf="f.phone.invalid">{{getPhoneErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group m-4">
+        <mat-form-field appearance="fill">
+          <mat-label>What kind of session you are interested in?</mat-label>
+          <mat-select formControlName="sessionType">
+            <mat-option value="one">First option</mat-option>
+            <mat-option value="two">Second option</mat-option>
+          </mat-select>
+          <mat-error *ngIf="f.sessionType.invalid">{{getSessionTypeErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group m-4">
+        <mat-form-field appearance="fill">
+          <mat-label>Additional information</mat-label>
+          <textarea matInput formControlName="description" rows="10"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="text-end m-4">
+        <button class="btn btn-primary" type="submit" [disabled]="!orderForm.valid">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+<footer-footer></footer-footer>
+

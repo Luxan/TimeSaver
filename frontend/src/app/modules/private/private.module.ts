@@ -1,19 +1,28 @@
-import { NgModule } from '@angular/core';
-import { GalleryComponent } from './pages/gallery/gallery/gallery.component';
-import { RouterModule, Routes } from "@angular/router";
-import { CommonModule } from "@angular/common";
+import {NgModule} from '@angular/core';
+import {SessionComponent} from './pages/session/session.component';
+import {RouterModule, Routes} from "@angular/router";
+import {CommonModule} from "@angular/common";
+import {SessionsComponent} from "./pages/sessions/sessions.component";
+import {SharedModule} from "../../shared/shared.module";
+import {NavbarComponent} from "./components/navbar/navbar.component";
 
 
 const routes: Routes = [
-  { path: 'gallery', component: GalleryComponent }
+  { path: 'sessions', component: SessionsComponent },
+  { path: 'sessions/:id', component: SessionComponent }
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    SharedModule
   ],
-  declarations: [ GalleryComponent ]
+  declarations: [
+    SessionComponent,
+    SessionsComponent,
+    NavbarComponent
+  ]
 })
 export class PrivateModule {
 }

@@ -1,0 +1,26 @@
+#carouselHome {
+  position: fixed;
+  top: 0;
+  left: 0;
+  img {
+    overflow: hidden;
+    object-fit: cover;
+    width: 100vw;
+    min-height: calc(100vh - 64px);
+  }
+}
+.carousel-indicators {
+  position: fixed;
+  bottom: 4rem;
+}
+.carousel-caption{
+  position: fixed;
+  bottom: 6rem;
+}
+footer-footer {
+  margin-top: auto;
+  position: fixed;
+  bottom: 0;
+  z-index: 2000;
+  width: 100%;
+}

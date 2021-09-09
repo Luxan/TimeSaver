@@ -1,0 +1,27 @@
+<h3 class="text-center">Image manager</h3>
+<div class="d-flex justify-content-between">
+  <label class="btn btn-default p-0 mx-2 align-self-center">
+    Choose portfolio images:
+    <input type="file" accept="image/*" multiple (change)="selectFiles($event)"/>
+  </label>
+  <div class="text-end m-4">
+    <button class="btn btn-primary" type="submit" [disabled]="valueNotChanged()" (click)="onSubmit()">Save</button>
+  </div>
+</div>
+
+
+<div *ngIf="portfolioImages.length > 0">
+  <div *ngFor="let image of portfolioImages" class="m-4">
+    <div class="row">
+      <div class="col mx-2">
+        <img [src]="image.bytes" alt="" class="img-thumbnail rounded img-fluid">
+        {{image.name}}
+      </div>
+      <div class="col mx-2">
+        <button class="btn btn-danger m-1 align-middle" (click)="delete(image)" title="Delete client"><i
+          class="bi bi-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

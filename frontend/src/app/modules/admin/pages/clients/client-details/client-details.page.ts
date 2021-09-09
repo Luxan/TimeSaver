@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ClientsService } from "../../../services/clients/clients.service";
+import { ClientsService } from "../../../../../shared/services/clients/clients.service";
 import { Location } from '@angular/common'
-import { AlertService } from "../../../../../shared/services/alerts.service";
+import { AlertService } from "../../../../../shared/services/alerts/alerts.service";
+import { ClientDetailsResponse } from "../../../../../shared/responses/client-details.response";
+import { NameResponse } from "../../../../../shared/responses/name.response";
 
 @Component({
   selector: 'app-client-details',
@@ -45,7 +47,7 @@ export class ClientDetailsPage implements OnInit {
   }
 
   private initializeForm(id: number) {
-    this.clientsService.getClientById(id).subscribe(value => {
+    this.clientsService.getClientDetails(id).subscribe((value: ClientDetailsResponse) => {
       this.clientForm.patchValue({
         name: value.name,
         email: value.email,
@@ -71,14 +73,14 @@ export class ClientDetailsPage implements OnInit {
   }
 
   private createClient(name: string, email: string, phone: string) {
-    this.clientsService.createClient(name, email, phone).subscribe(value => {
-      this.alertService.success(`Client created: ${value.name} ${value.email} ${value.phone}`);
+    this.clientsService.createClient(name, email, phone).subscribe((value: NameResponse) => {
+      this.alertService.success(`Client created: ${value}`);
     });
   }
 
   private editClient(name: string, email: string, phone: string) {
-    this.clientsService.updateClient(this.id, name, email, phone).subscribe(value => {
-      this.alertService.success(`Client updated: ${value.id} ${value.name} ${value.email} ${value.phone}`);
+    this.clientsService.updateClient(this.id, name, email, phone).subscribe((value: NameResponse) => {
+      this.alertService.success(`Client updated: ${value}`);
     });
   }
 }

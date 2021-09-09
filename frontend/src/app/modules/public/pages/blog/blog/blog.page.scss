@@ -1,0 +1,68 @@
+.bg-static {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-image: url("https://www.dropbox.com/s/v4u0mpzfplgjxaq/img-blog-background-move-scrolling-bg.png?raw=1");
+  background-size: cover;
+  //background-position: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1000;
+}
+
+.bg-move {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: auto;
+  width: 100%;
+  background-image: url("https://www.dropbox.com/s/isdqow2394y3t35/img-blog-background-move-scrolling-boat.png?raw=1");
+  background-size: cover;
+  background-position: center;
+}
+
+.post-wrapper img {
+  max-height: 50vh;
+  object-fit: cover;
+  background-position: center;
+}
+
+.post-content {
+  position: relative;
+  top: -3rem;
+  transition: 0s background-color;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+a {
+  color: royalblue;
+  background: linear-gradient(to right, midnightblue, midnightblue 50%, royalblue 50%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 100%;
+  background-position: 100%;
+  transition: background-position 275ms ease;
+}
+
+a:hover {
+  background-position: 0 100%;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+.post-wrapper {
+  margin-top: 5rem;
+}
+
+.post-content {
+  //opacity: 0.8;
+}

@@ -1,0 +1,41 @@
+#intro {
+  background: url("../../../../../assets/about-me.jpg") no-repeat center center fixed;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+}
+
+.mask {
+  position: fixed;
+  top: 3rem;
+  z-index: 2000 !important;
+  background-color: rgba(255, 255, 255, 0.7);
+  max-width: 500px;
+  max-height: calc(92vh - 10rem);
+  margin-top: 4vh;
+  margin-left: 50vw;
+  margin-right: 5vw;
+  padding: 2rem;
+}
+
+.mask-small {
+  position: fixed;
+  top: 3rem;
+  z-index: 2000 !important;
+  background-color: rgba(255, 255, 255, 0.7);
+  max-width: 100%;
+  max-height: calc(92vh - 10rem);
+  margin-top: 4vh;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  padding: 2rem;
+}
+
+footer-footer {
+  margin-top: auto;
+  position: fixed;
+  bottom: 0;
+  z-index: 2000;
+  width: 100%;
+}

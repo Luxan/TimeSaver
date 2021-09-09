@@ -1,0 +1,72 @@
+<div class="container">
+  <navbar-admin></navbar-admin>
+  <div class="mt-5">
+    <alert></alert>
+    <div class="text-center">
+      <h3 *ngIf="create">Post Create</h3>
+      <h3 *ngIf="edit">Post Edit</h3>
+    </div>
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="postForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+          <div class="form-group m-4">
+            <mat-form-field appearance="fill">
+              <mat-label>Enter post name</mat-label>
+              <input matInput placeholder="Christopher Columbus" formControlName="name" required>
+              <mat-error *ngIf="f.name.invalid">{{getNameErrorMessage()}}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-group m-4">
+            <mat-form-field appearance="fill">
+              <mat-label>Enter youtube link</mat-label>
+              <input matInput placeholder="https://www.youtube.com/embed/xyz" formControlName="youtubeLink">
+              <mat-error *ngIf="f.youtubeLink.invalid">{{getYoutubeLinkErrorMessage()}}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-group m-4" *ngIf="!create">
+            Last Update Date: {{date}}
+          </div>
+
+          <div class="form-group m-4">
+            <mat-checkbox formControlName="active">Publish post</mat-checkbox>
+          </div>
+
+          <div class="form-group m-4">
+            <label class="btn btn-default p-0 mx-2 align-self-center">
+              Add post images:
+              <input type="file" accept="image/*" multiple formControlName="images" (change)="selectFiles($event)"/>
+            </label>
+          </div>
+
+          <div class="form-group m-4 d-flex flex-row">
+            <div *ngFor="let image of images" class="d-flex flex-column">
+              <img [src]="image.image" [alt]="image.name">
+              <button type="button" class="btn btn-danger m-1" (click)="deleteImage(image)"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+
+          <div class="form-group m-4 w-100">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Post Content</mat-label>
+              <textarea matInput
+                        formControlName="content"
+                        cdkTextareaAutosize
+                        cdkAutosizeMinRows="20"
+                        cdkAutosizeMaxRows="100">
+              </textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="text-end m-4">
+            <button class="btn btn-primary" type="submit" [disabled]="!postForm.valid">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<footer-footer></footer-footer>
+
+

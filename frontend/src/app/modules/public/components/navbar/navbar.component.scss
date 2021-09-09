@@ -1,0 +1,11 @@
+.navbar {
+  background: rgba(0, 0, 0, .6);
+  z-index: 3000;
+  i {
+    font-size: 22px;
+  }
+}
+
+.collapse.navbar-collapse:not(.show) {
+  margin-left: 4.75rem;
+}

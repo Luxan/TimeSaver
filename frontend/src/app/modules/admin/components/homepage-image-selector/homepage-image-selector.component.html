@@ -1,0 +1,34 @@
+<h3 class="text-center">Image manager</h3>
+<form [formGroup]="homepageImagesForm" (ngSubmit)="onSubmit()">
+  <div class="d-flex justify-content-between">
+    <label class="btn btn-default p-0 mx-2 align-self-center">
+      Choose home page carousel images:
+      <input type="file" accept="image/*" multiple (change)="selectFiles($event)" />
+    </label>
+    <div class="text-end m-4">
+      <button class="btn btn-primary" type="submit" [disabled]="valueNotChanged()">Save</button>
+    </div>
+  </div>
+
+
+  <div *ngIf="homeImages.length > 0">
+    <div *ngFor="let image of homeImages" class="m-4">
+      <div class="row">
+        <div class="col mx-2">
+          <img [src]="image.bytes" alt="" class="img-thumbnail rounded img-fluid">
+          {{image.name}}
+        </div>
+        <div class="col mx-2">
+          <mat-form-field appearance="fill" class="h-100 w-100 align-middle">
+            <mat-label>Html code</mat-label>
+            <textarea matInput rows="15" [formControlName]="image.name" class="form-control"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="col mx-2">
+          <button class="btn btn-danger m-1 align-middle" (click)="delete(image)" title="Delete client"><i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

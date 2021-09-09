@@ -1,0 +1,31 @@
+<div class="container">
+  <navbar-admin></navbar-admin>
+  <div class="row mt-5">
+    <div class="col-3">
+      <ul class="vertical-menu text-center">
+        <li [ngClass]="his ? 'active' : ''" (click)="goToHis()">Homepage Image Selector</li>
+        <li [ngClass]="pis ? 'active' : ''" (click)="goToPis()">Portfolio Image Selector</li>
+      </ul>
+    </div>
+    <div class="col-6">
+      <alert></alert>
+      <div *ngIf="his">
+        <div class="text-center">
+          <h3>Homepage Image Selector</h3>
+        </div>
+        <div>
+          <homepage-image-selector [events]="hisSubject$.asObservable()"></homepage-image-selector>
+        </div>
+      </div>
+      <div *ngIf="pis">
+        <div class="text-center">
+          <h3>Portfolio Image Selector</h3>
+        </div>
+        <div>
+          <portfolio-image-selector [events]="pisSubject$.asObservable()"></portfolio-image-selector>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer-footer></footer-footer>
+</div>

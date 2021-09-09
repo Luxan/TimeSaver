@@ -1,0 +1,13 @@
+img {
+  max-width: 20rem;
+  max-height: 20rem;
+}
+
+ul {
+  list-style-type: none;
+  .active {
+    color: blue;
+  }
+  li { cursor: pointer; }
+}
+

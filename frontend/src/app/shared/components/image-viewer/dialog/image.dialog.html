@@ -1,0 +1,5 @@
+<div class="col d-flex align-items-center justify-content-center w-100 h-100">
+  <img *ngIf="!zoomOn" class="dialog-image" [src]="data.source" alt="" (click)="singleClick()">
+  <img *ngIf="zoomOn" class="zoomed" [src]="data.source" alt="" (click)="singleClick()" cdkDrag>
+</div>
+<div class="exit text-center" (click)="closeDialog()">X</div>

@@ -1,0 +1,77 @@
+<div class="container">
+  <navbar-admin></navbar-admin>
+  <alert></alert>
+  <div class="text-center">
+    <h3>Post Manager</h3>
+  </div>
+  <div class="d-flex flex-row justify-content-between">
+    <button class="btn btn-primary m-2" [routerLink]="['/admin/posts/new']">Create New Post</button>
+    <mat-form-field appearance="fill">
+      <mat-icon matSuffix><i class="bi bi-search"></i></mat-icon>
+      <mat-label>Search Posts</mat-label>
+      <input #searchInput type="search" matInput placeholder="Ex. Pizza">
+    </mat-form-field>
+  </div>
+  <table mat-table (matSortChange)="sortData($event)" class="mb-0 w-100" matSort aria-label="Elements">
+    <ng-container matColumnDef="coverImageId">
+      <th mat-header-cell *matHeaderCellDef>Cover</th>
+      <td mat-cell class="align-middle" *matCellDef="let post">
+        <a [routerLink]="['view/' + post.id]"><img [src]="post.coverImage" class="w-100" alt=""></a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell class="align-middle" *matCellDef="let post">
+        <a [routerLink]="['view/' + post.id]">{{post.name}}</a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="youtubeLink">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Youtube</th>
+      <td mat-cell class="align-middle" *matCellDef="let post">
+        <a [href]="[post.youtubeLink]" rel="nofollow" target="_blank">{{post.youtubeLink}}</a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+      <td mat-cell class="align-middle" *matCellDef="let post">
+        {{post.date}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="active">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Active</th>
+      <td mat-cell class="align-middle" *matCellDef="let post">
+        <mat-checkbox (change)="changeActivity($event, post)" [checked]="post.active">Active</mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="buttons">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell class="text-end" *matCellDef="let post">
+        <button class="btn btn-danger m-1" (click)="delete(post)" title="Delete post"><i class="bi bi-trash"></i>
+        </button>
+        <button class="btn btn-primary m-1" [routerLink]="'edit/' + post.id" title="Edit post">
+          <i class="bi bi-pencil-square"></i>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div class="bg-dark text-white text-center py-5" *ngIf="postDetails.length == 0">
+    No data
+  </div>
+
+  <mat-paginator (page)="pageChanged($event)"
+                 [length]="postCount"
+                 [pageIndex]="currentPage"
+                 [pageSize]="postsOnOnePage">
+  </mat-paginator>
+  <footer-footer></footer-footer>
+</div>
+

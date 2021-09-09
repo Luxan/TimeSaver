@@ -1,0 +1,35 @@
+<navbar-public></navbar-public>
+<div class="container">
+  <div class="mt-4 d-flex justify-content-end">
+    <mat-form-field appearance="fill">
+      <mat-icon matSuffix><i class="bi bi-search"></i></mat-icon>
+      <mat-label>Search Posts</mat-label>
+      <input #searchInput type="search" matInput placeholder="Ex. Pizza">
+    </mat-form-field>
+  </div>
+
+  <div *ngFor="let post of postDetails" class="w-100 text-center post-wrapper">
+    <a [routerLink]="[post.id]"><img [src]="post.coverImage" class="img-fluid w-100" alt=""></a>
+    <div class="post-content bg-light mx-4 p-5">
+      <h3><a [routerLink]="[post.id]">{{post.name}}</a></h3>
+      <br>
+      <div *ngIf="post.youtubeLink" class="embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item w-100 h-50" [src]="post.youtubeLink" allowfullscreen></iframe>
+      </div>
+      <br>
+      {{post.content.trim()}}... <a [routerLink]="[post.id]">read more</a>
+      <br>
+      <br>
+      {{formatDate(post.date)}}
+    </div>
+  </div>
+  <mat-paginator class="bg-transparent" (page)="pageChanged($event)"
+                 [length]="postCount"
+                 [pageIndex]="currentPage"
+                 [pageSize]="postsOnOnePage">
+  </mat-paginator>
+</div>
+<div class="bg-static" (scroll)="onScroll($event)">
+  <div class="bg-move"></div>
+</div>
+<footer-footer></footer-footer>

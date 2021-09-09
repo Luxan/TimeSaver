@@ -1,0 +1,28 @@
+{
+  "properties": [
+    {
+      "name": "api.path",
+      "type": "java.lang.String",
+      "description": "Path for all api endpoints eg: host:port/value.of.api.path.variable/resource."
+    },
+    {
+      "name": "imagesizedef.medium.height",
+      "type": "java.lang.String",
+      "description": "Definition of medium size picture height dimension."
+    },
+    {
+      "name": "imagesizedef.medium.width",
+      "type": "java.lang.String",
+      "description": "Definition of medium size picture width dimension."
+    },
+    {
+      "name": "imagesizedef.small.height",
+      "type": "java.lang.String",
+      "description": "Definition of small size picture height dimension."
+    },
+    {
+      "name": "imagesizedef.small.width",
+      "type": "java.lang.String",
+      "description": "Definition of small size picture width dimension."
+    }
+  ] }

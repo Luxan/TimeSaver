@@ -1,11 +1,15 @@
 package com.sgorokh.TimeSaver.controllers;
 
+import com.sgorokh.TimeSaver.controllers.exceptions.InvalidRequestException;
+import com.sgorokh.TimeSaver.controllers.exceptions.ResourceNotFoundException;
+import com.sgorokh.TimeSaver.controllers.helpers.ObjectMapper;
+import com.sgorokh.TimeSaver.controllers.helpers.RequestToDTOMapper;
+import com.sgorokh.TimeSaver.controllers.requests.CreateClientRequest;
+import com.sgorokh.TimeSaver.controllers.requests.UpdateClientRequest;
+import com.sgorokh.TimeSaver.controllers.responses.*;
+import com.sgorokh.TimeSaver.domain.dtos.ClientDTO;
+import com.sgorokh.TimeSaver.domain.dtos.ClientDetailsDTO;
 import com.sgorokh.TimeSaver.domain.servises.ClientService;
-import com.sgorokh.TimeSaver.exceptions.InvalidRequestException;
-import com.sgorokh.TimeSaver.exceptions.ResourceNotFoundException;
-import com.sgorokh.TimeSaver.models.Client;
-import com.sgorokh.TimeSaver.requests.CreateClientRequest;
-import com.sgorokh.TimeSaver.requests.UpdateClientRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +19,7 @@ import org.springframework.web.context.request.WebRequest;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -35,53 +37,63 @@ public class ClientController {
     }
 
     @GetMapping("clients")
-    public ResponseEntity<List<Client>> getClients() {
-        return ResponseEntity.ok(clientService.getClients());
+    public ResponseEntity<MultipleClientResponse> getClients() {
+        List<ClientDTO> clients = clientService.getClients();
+        MultipleClientResponse response = ObjectMapper.clientToMultipleClientDetailsResponse(clients);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("clients/{id}")
-    public ResponseEntity<Client> getClientById(@PathVariable(value = "id") Long clientId)
+    public ResponseEntity<ClientDetailsResponse> getClientDetails(@PathVariable(value = "id") Long clientId)
             throws ResourceNotFoundException {
-        Optional<Client> clientById = clientService.getClientById(clientId);
-        Client client = clientById.orElseThrow(() ->
+        Optional<ClientDetailsDTO> clientById = clientService.getClientDetailsById(clientId);
+        ClientDetailsDTO client = clientById.orElseThrow(() ->
                 new ResourceNotFoundException("Could not get Client by id = " + clientId));
-        return ResponseEntity.ok(client);
+        ClientDetailsResponse response = ObjectMapper.clientDetailsDtoToClientDetailsResponse(client);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("clients/search/{searchString}")
-    public ResponseEntity<List<Client>> getClientsByString(@PathVariable(value = "searchString") String searchString) {
-        return ResponseEntity.ok(clientService.searchByString(searchString));
+    public ResponseEntity<MultipleClientResponse> getClientsByString(@PathVariable(value = "searchString") String searchString) {
+        List<ClientDTO> clientList = clientService.searchByString(searchString);
+        MultipleClientResponse response = ObjectMapper.clientToMultipleClientDetailsResponse(clientList);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("clients")
-    public ResponseEntity<Client> createClient(@RequestBody CreateClientRequest clientRequest,
-                                               WebRequest request) throws URISyntaxException, InvalidRequestException {
-        Client client = clientService.saveClient(clientRequest);
-        if (client.getId() == null) {
-            throw new InvalidRequestException("Client with this phone number or name already exist: "
-                    + client.getName() + " " + client.getPhone());
+    public ResponseEntity<NameResponse> createClient(@RequestBody CreateClientRequest clientRequest,
+                                                     WebRequest request) throws URISyntaxException, InvalidRequestException {
+        ClientDTO client = RequestToDTOMapper.createClientRequestToClientDto(clientRequest);
+        ClientDTO savedClient = clientService.saveClient(client);
+        if (savedClient == null) {
+            throw new InvalidRequestException("Client with this phone number or name or email already exist: "
+                    + client.getName() + " " + client.getPhone() + " " + client.getEmail());
         }
         URI uri = new URI(request.getContextPath() + apiPath + "clients");
-        return ResponseEntity.created(uri).body(client);
+        NameResponse response = ObjectMapper.nameToNameResponse(savedClient.getName());
+        return ResponseEntity.created(uri).body(response);
     }
 
-    @PutMapping("clients/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable(value = "id") Long clientId,
-                                               @Valid @RequestBody UpdateClientRequest request)
+    @PutMapping("clients")
+    public ResponseEntity<NameResponse> updateClient(@Valid @RequestBody UpdateClientRequest request)
             throws InvalidRequestException {
-        Client client = clientService.updateClient(clientId, request);
-        if (client == null) throw new InvalidRequestException("Client with this id does not exist" + clientId);
-        return ResponseEntity.ok(client);
+        ClientDTO client = RequestToDTOMapper.updateClientRequestToClientDto(request);
+        ClientDTO updatedClient = clientService.updateClient(client);
+        if (updatedClient == null)
+            throw new InvalidRequestException("Client with this id does not exist" + client.getId());
+
+        NameResponse response = ObjectMapper.nameToNameResponse(client.getName());
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("clients/{id}")
-    public ResponseEntity<Client> deleteClient(@PathVariable(value = "id") Long clientId)
+    public ResponseEntity<NameResponse> deleteClient(@PathVariable(value = "id") Long clientId)
             throws InvalidRequestException {
-        Client deletedClient = clientService.deleteClient(clientId);
-        Map<String, Boolean> response = new HashMap<>();
+        ClientDTO deletedClient = clientService.deleteClient(clientId);
         if (deletedClient == null)
             throw new InvalidRequestException("Client with this id does not exist: " + clientId);
-        response.put("deleted", Boolean.TRUE);
-        return ResponseEntity.ok(deletedClient);
+
+        NameResponse response = ObjectMapper.nameToNameResponse(deletedClient.getName());
+        return ResponseEntity.ok(response);
     }
 }

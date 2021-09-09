@@ -1,6 +1,25 @@
-<h1>HOME</h1>
-<div class="">
-  <button class="btn btn-primary pt-5">TEST BUTTON</button>
-</div>
+<div class="p-0">
 
-<router-outlet></router-outlet>
+  <navbar-public></navbar-public>
+
+  <div id="carouselHome" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div *ngFor="let image of homeImages;let i=index; first as isFirst"
+           [ngClass]="isFirst ? 'carousel-item active' : 'carousel-item'">
+        <img [src]="image.bytes" class="" alt="">
+        <div *ngIf="image.content.length > 0" class="carousel-caption" [innerHTML]="image.content"></div>
+      </div>
+    </div>
+    <div class="carousel-indicators">
+      <button *ngFor="let image of homeImages;let i=index; first as isFirst" type="button"
+              data-bs-target="#carouselHome" [attr.data-bs-slide-to]="i" [ngClass]="isFirst ? 'active' : ''">
+      </button>
+    </div>
+
+
+    <footer-footer></footer-footer>
+  </div>
+
+  <router-outlet></router-outlet>
+
+</div>

@@ -1,0 +1,51 @@
+<navbar-private></navbar-private>
+
+<div class="container-fluid p-0">
+  <div class="d-block d-md-none p-1 pt-5">
+    <div class="row">
+      <div class="col-12">
+        <div *ngFor="let image of images">
+          <image-viewer [src]="image"></image-viewer>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-none d-md-block d-lg-none p-2 pt-5">
+    <div class="row">
+      <div class="col-6">
+        <div *ngFor="let image of images1of2">
+          <image-viewer [src]="image"></image-viewer>
+        </div>
+      </div>
+      <div class="col-6">
+        <div *ngFor="let image of images2of2">
+          <image-viewer [src]="image"></image-viewer>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-none d-lg-block d-md-none p-3 pt-5">
+    <div class="row">
+      <div class="col-4">
+        <div *ngFor="let image of images1of3">
+          <image-viewer [src]="image"></image-viewer>
+        </div>
+      </div>
+      <div class="col-4">
+        <div *ngFor="let image of images2of3">
+          <image-viewer [src]="image"></image-viewer>
+        </div>
+      </div>
+      <div class="col-4">
+        <div *ngFor="let image of images3of3">
+          <image-viewer [src]="image"></image-viewer>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer-footer></footer-footer>
+
+
+

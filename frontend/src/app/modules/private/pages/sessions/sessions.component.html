@@ -1,0 +1,50 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <p>Welcome back {{name}}</p>
+  </div>
+  <div>Please choose what session you would like to view</div>
+  <div class="d-block d-md-none p-1 pt-5">
+    <div class="row">
+      <div class="col-12">
+        <div *ngFor="let session of sessions">
+          <img [src]="session.image" (click)="viewSession(session)" alt="" class="w-100 h-100 m-3">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-none d-md-block d-lg-none p-2 pt-5">
+    <div class="row">
+      <div class="col-6">
+        <div *ngFor="let session of sessions1of2">
+          <img [src]="session.image" (click)="viewSession(session)" alt="" class="w-100 h-100 m-3">
+        </div>
+      </div>
+      <div class="col-6">
+        <div *ngFor="let session of sessions2of2">
+          <img [src]="session.image" (click)="viewSession(session)" alt="" class="w-100 h-100 m-3">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-none d-lg-block d-md-none p-3 pt-5">
+    <div class="row">
+      <div class="col-4">
+        <div *ngFor="let session of sessions1of3">
+          <img [src]="session.image" (click)="viewSession(session)" alt="" class="w-100 h-100 m-3">
+        </div>
+      </div>
+      <div class="col-4">
+        <div *ngFor="let session of sessions2of3">
+          <img [src]="session.image" (click)="viewSession(session)" alt="" class="w-100 h-100 m-3">
+        </div>
+      </div>
+      <div class="col-4">
+        <div *ngFor="let session of sessions3of3">
+          <img [src]="session.image" (click)="viewSession(session)" alt="" class="w-100 h-100 m-3">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

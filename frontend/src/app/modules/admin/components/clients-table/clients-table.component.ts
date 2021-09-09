@@ -2,14 +2,14 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { ClientsTableDataSource } from './clients-table-datasource';
-import { Client } from "../../../../shared/models/client/client.model";
-import { ClientsService } from "../../services/clients/clients.service";
+import { ClientsService } from "../../../../shared/services/clients/clients.service";
 import { fromEvent } from "rxjs";
 import { debounceTime, distinctUntilChanged, filter, map } from "rxjs/operators";
 import { ConfirmDialog } from "../../../../shared/dialogs/delete.dialog";
 import { MatDialog } from "@angular/material/dialog";
-import { AlertService } from "../../../../shared/services/alerts.service";
+import { AlertService } from "../../../../shared/services/alerts/alerts.service";
+import { ClientDetails, MultipleClientResponse } from "../../../../shared/responses/multiple-client.response";
+import { TableDataSource } from "../table-datasource/table-datasource";
 
 @Component({
   selector: 'admin-clients-table',
@@ -20,10 +20,10 @@ export class ClientsTableComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<Client>;
+  @ViewChild(MatTable) table!: MatTable<ClientDetails>;
   @ViewChild('searchInput', { static: true }) clientsSearchInput: ElementRef | undefined;
 
-  dataSource: ClientsTableDataSource = new ClientsTableDataSource([]);
+  dataSource: TableDataSource<ClientDetails> = new TableDataSource<ClientDetails>([]);
   isSearching = false;
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = [ 'name', 'email', 'phone', 'buttons' ];
@@ -50,21 +50,21 @@ export class ClientsTableComponent implements AfterViewInit, OnInit {
       this.isSearching = true;
       if (searchText.length == 0)
         this.clientsService.getClients().subscribe(value => {
-          this.dataSource = new ClientsTableDataSource(value);
+          this.dataSource = new TableDataSource<ClientDetails>(value.clientDetails);
           this.updateClientsTable(value);
           this.isSearching = false;
         });
       else
-        this.clientsService.searchClients(searchText).subscribe(value => {
-          this.dataSource = new ClientsTableDataSource(value);
+        this.clientsService.getClientsByString(searchText).subscribe(value => {
+          this.dataSource = new TableDataSource<ClientDetails>(value.clientDetails);
           this.updateClientsTable(value);
           this.isSearching = false;
         });
     });
   }
 
-  updateClientsTable(value: Client[]) {
-    this.dataSource = new ClientsTableDataSource(value);
+  updateClientsTable(value: MultipleClientResponse) {
+    this.dataSource = new TableDataSource<ClientDetails>(value.clientDetails);
     this.ngAfterViewInit();
   }
 
@@ -74,7 +74,7 @@ export class ClientsTableComponent implements AfterViewInit, OnInit {
     this.table.dataSource = this.dataSource;
   }
 
-  delete(client: Client) {
+  delete(client: ClientDetails) {
     this.dialog.open(ConfirmDialog, {
       data: {
         name: 'Do you really want to delete this client?',
@@ -85,6 +85,7 @@ export class ClientsTableComponent implements AfterViewInit, OnInit {
         if (value)
           this.clientsService.deleteClient(client.id).subscribe(value => {
             this.alertService.success('client deleted');
+            this.ngOnInit();
           });
       });
   }

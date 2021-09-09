@@ -1,0 +1,10 @@
+.navbar {
+  background: rgba(0, 0, 0, .6);
+  z-index: 2000;
+  .nav-item:first-of-type {
+    margin-left: 2rem;
+  }
+  .nav-item:last-of-type {
+    margin-right: 2rem;
+  }
+}

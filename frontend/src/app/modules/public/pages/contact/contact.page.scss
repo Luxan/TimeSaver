@@ -1,0 +1,41 @@
+#order-container {
+  background: url("../../../../../assets/order.jpg") no-repeat center center fixed;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  margin: 0;
+}
+
+footer-footer {
+  margin-top: auto;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.container-fluid {
+  position: fixed;
+  top: 5rem;
+}
+
+.mask {
+  z-index: 2000 !important;
+  background-color: rgba(255, 255, 255, 0.7);
+  max-width: 700px;
+  max-height: calc(92vh - 10rem);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.form-div {
+  max-width: 40rem !important;
+  max-height: 60rem;
+  position: fixed;
+  top: 0;
+}
+
+mat-form-field {
+  width: 100%;
+}

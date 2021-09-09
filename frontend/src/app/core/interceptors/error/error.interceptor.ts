@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { AlertService } from "../../../shared/services/alerts.service";
+import { AlertService } from "../../../shared/services/alerts/alerts.service";
 
 export class HttpError {
   static BadRequest = 400;
@@ -48,7 +48,8 @@ export class ErrorInterceptor implements HttpInterceptor {
               this.alertService.error('InternalServerError');
               break;
             default:
-              console.log('Unknown error. Server might be down');
+              console.log('Unknown error. Server might be down: ' + error.status);
+              console.log(error);
               this.alertService.error('Unknown error. Server might be down.');
           }
           return throwError("Intercepted an error.");

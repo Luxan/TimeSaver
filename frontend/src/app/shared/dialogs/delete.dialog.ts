@@ -12,8 +12,4 @@ export class ConfirmDialog {
     public dialogRef: MatDialogRef<ConfirmDialog>
   ) {
   }
-
-  closeDialog() {
-    this.dialogRef.close('Pizza!');
-  }
 }

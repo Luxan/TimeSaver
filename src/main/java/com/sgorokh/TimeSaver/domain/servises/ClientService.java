@@ -1,16 +1,18 @@
 package com.sgorokh.TimeSaver.domain.servises;
 
-import com.sgorokh.TimeSaver.exceptions.InvalidRequestException;
-import com.sgorokh.TimeSaver.exceptions.ResourceNotFoundException;
+import com.sgorokh.TimeSaver.domain.dtos.ClientDTO;
+import com.sgorokh.TimeSaver.domain.dtos.ClientDetailsDTO;
+import com.sgorokh.TimeSaver.domain.helpers.DtoToEntityMapper;
+import com.sgorokh.TimeSaver.domain.helpers.EntityToDtoMapper;
 import com.sgorokh.TimeSaver.models.Client;
 import com.sgorokh.TimeSaver.repositories.ClientRepository;
-import com.sgorokh.TimeSaver.requests.CreateClientRequest;
-import com.sgorokh.TimeSaver.requests.UpdateClientRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
@@ -22,49 +24,62 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public List<Client> getClients() {
-        return clientRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<ClientDTO> getClients() {
+        List<Client> clients = clientRepository.findAll();
+        return clients.stream()
+                .map(EntityToDtoMapper::clientToDto)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Client> getClientById(Long clientId) {
-        return clientRepository.findById(clientId);
+    @Transactional(readOnly = true)
+    public Optional<ClientDetailsDTO> getClientDetailsById(Long clientId) {
+        Optional<Client> optionalClient = clientRepository.findById(clientId);
+        if (optionalClient.isPresent()) {
+            Client client = optionalClient.get();
+            return Optional.of(EntityToDtoMapper.clientToClientDetailsDto(client));
+        } else return Optional.empty();
     }
 
-    public List<Client> searchByString(String searchString) {
-        return clientRepository.searchByString(searchString);
+    @Transactional(readOnly = true)
+    public List<ClientDTO> searchByString(String searchString) {
+        List<Client> clients = clientRepository.searchByString(searchString);
+        return clients.stream()
+                .map(EntityToDtoMapper::clientToDto)
+                .collect(Collectors.toList());
     }
 
-    public Client saveClient(CreateClientRequest request) {
-        Client foundClient = clientRepository.searchByName(request.getName());
-        Client client = Client.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .phone(request.getPhone())
-                .build();
+    @Transactional
+    public ClientDTO saveClient(ClientDTO clientDto) {
+        Client foundClient = clientRepository.searchByName(clientDto.getName());
         if (foundClient != null) {
-            if (foundClient.getEmail().equals(request.getEmail()) ||
-                    foundClient.getPhone().equals(request.getPhone()))
-                return client;
+            if (foundClient.getEmail().equals(clientDto.getEmail()) ||
+                    foundClient.getPhone().equals(clientDto.getPhone()))
+                return null;
         }
-        return clientRepository.save(client);
+        Client client = DtoToEntityMapper.clientDtoToClient(clientDto);
+        Client savedClient = clientRepository.save(client);
+        return EntityToDtoMapper.clientToDto(savedClient);
     }
 
-    public Client updateClient(Long clientId, UpdateClientRequest request) {
-        Optional<Client> foundClient = clientRepository.findById(clientId);
+    @Transactional
+    public ClientDTO updateClient(ClientDTO clientDto) {
+        Optional<Client> foundClient = clientRepository.findById(clientDto.getId());
         if (!foundClient.isPresent()) return null;
         Client client = foundClient.get();
-        client.setName(request.getName());
-        client.setEmail(request.getEmail());
-        client.setPhone(request.getPhone());
-
-        return clientRepository.save(client);
+        client.setName(clientDto.getName());
+        client.setEmail(clientDto.getEmail());
+        client.setPhone(clientDto.getPhone());
+        Client savedClient = clientRepository.save(client);
+        return EntityToDtoMapper.clientToDto(savedClient);
     }
 
-    public Client deleteClient(Long clientId) {
+    @Transactional
+    public ClientDTO deleteClient(Long clientId) {
         Optional<Client> foundClient = clientRepository.findById(clientId);
         if (!foundClient.isPresent()) return null;
         Client client = foundClient.get();
         clientRepository.delete(client);
-        return client;
+        return EntityToDtoMapper.clientToDto(client);
     }
 }
